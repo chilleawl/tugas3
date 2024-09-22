@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modul_3/login_page.dart';
-import 'package:modul_3/login_pages.dart';
+import 'package:modul_3/presentation/authentication/login_pages.dart';
 
 void main() {
   runApp(const MyApp());
