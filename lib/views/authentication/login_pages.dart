@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:modul_3/views/home/home_page.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPages extends StatefulWidget {
+  const LoginPages({super.key});
+
+  @override
+  State<LoginPages> createState() => _LoginPagesState();
+}
+
+bool isLoginSuccess = true;
+
+class _LoginPagesState extends State<LoginPages> {
   String username = "";
   String password = "";
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,10 +34,14 @@ class LoginPage extends StatelessWidget {
         onChanged: (value) {
           username = value;
         },
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
             hintText: 'Username',
-            contentPadding: EdgeInsets.all(8.0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.all(8.0),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                borderSide: BorderSide(
+                    color: (isLoginSuccess) ? Colors.blue : Colors.red)),
+            border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 borderSide: BorderSide(color: Colors.blue))),
       ),
@@ -60,12 +72,25 @@ class LoginPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: (isLoginSuccess) ? Colors.blue : Colors.red),
           onPressed: () {
             String text = "";
-            if (username == "flutterMobile" && password == "flutter123") {
-              text = "Login success!";
+            if (password == "flutter123") {
+              setState(() {
+                text = "Login success!";
+                isLoginSuccess = true;
+              });
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return HomePage(username: username);
+              }));
             } else {
-              text = "Login Failed!";
+              setState(() {
+                text = "Login Failed!";
+                isLoginSuccess = false;
+              });
             }
             SnackBar snackBar = SnackBar(content: Text(text));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
