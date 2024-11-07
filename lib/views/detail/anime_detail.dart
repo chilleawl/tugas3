@@ -40,6 +40,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.yellow.shade100,
           title: Text("Detail"),
         ),
         body: _isLoading
@@ -47,16 +48,35 @@ class _DetailScreenState extends State<DetailScreen> {
             : _errorMessage != null
                 ? Center(child: Text("Error ${_errorMessage}"))
                 : _detailData != null
-                    ? Column(
-                        children: [
-                          Image.network(_detailData!['images'][0] ??
-                              'https://placehold.co/600x400'),
-                          Text("Name : ${_detailData!['name']}"),
-                          Text(
-                              "Kekkei Genkai : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}"),
-                          Text("Title : ${_detailData!['personal']['titles']}")
-                        ],
-                      )
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 12),
+                      child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                
+                                image: DecorationImage(image: NetworkImage(_detailData!['images'][0] ??
+                                  'https://placehold.co/600x400'),fit: BoxFit.cover),
+                                borderRadius: BorderRadius.all(Radius.circular(22))
+                              ),
+                             
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Text("${_detailData!['name']}", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                            ),
+                            Text("${_detailData!['personal']['titles']?? 'None'}"),
+                          
+                            Padding(
+                              padding: const EdgeInsets.only(top:12.0),
+                              child: Text(
+                                  "Kekkei Genkai : ${_detailData!['personal']['kekkeiGenkai'] ?? 'Empty'}", textAlign: TextAlign.center,),
+                            ),
+                          ],
+                        ),
+                    )
                     : Text("Tidak ada data!"));
   }
 }
